@@ -30,6 +30,14 @@ export class WidgetService extends Construct {
       requestTemplates: { "application/json": '{ "statusCode": "200" }' }
     });
 
-    api.root.addMethod("GET", getWidgetsIntegration); // GET /
+      api.root.addMethod("GET", getWidgetsIntegration); // GET /
+      
+      const widget = api.root.addResource("{id}");
+
+      const widgetIntegration = new apigateway.LambdaIntegration(handler);
+  
+      widget.addMethod("POST", widgetIntegration);   // POST /{id}
+      widget.addMethod("GET", widgetIntegration);    // GET /{id}
+      widget.addMethod("DELETE", widgetIntegration); // DELETE /{id}
   }
 }
